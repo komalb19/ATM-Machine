@@ -1,0 +1,64 @@
+import inquirer from "inquirer";
+import ListPrompt from "inquirer/lib/prompts/list.js";
+
+let ansPin = 4321;
+let curBal= 100000;
+
+let reqPin= await inquirer.prompt(
+    {name: "pin",
+     message: "Enter your pin",
+     type: "number"
+    }
+)
+
+if (reqPin.pin == ansPin){
+    let answer= await inquirer.prompt([ {
+         name: "Operation",
+         message: "Choose one option",
+         type: "list",
+         choices: ['withdraw', 'Check Balance', 'Fast Cash']
+     }] )
+     console.log(answer);
+
+     if (answer.Operation === "withdraw") {
+        let withdr = await inquirer.prompt(
+            {
+                name: "amount",
+                message: "How much amount you want to withdraw?",
+                type: "number"
+            }
+        )
+
+        let newBal= curBal - withdr.amount;
+
+        console.log("Your new balance is: " + newBal)
+     }
+     else if (answer.Operation === "Fast Cash") {
+        let Fcash = await inquirer.prompt( [
+            {
+                name: "Fastcash",
+                message: "Please select amount you want to withdraw",
+                type: "list",
+                choices: [500, 1000, 5000, 10000]
+            } ]
+        ) 
+
+        let NewBal = curBal - Fcash.Fastcash;
+        console.log("your new balance is: " + NewBal);
+
+        // let NewBal1 = curBal - Fcash.Fastcash[1];
+        // console.log("Your new balance is:" + NewBal1);
+
+        // let NewBal2 = curBal - Fcash.Fastcash[2];
+        // console.log("your new balance is" + NewBal2);
+
+        // let NewBal3 = curBal - Fcash.Fastcash[3];
+        // console.log("your new balance is" + NewBal3)
+
+     }
+     else { console.log("your current balance is:" + curBal)}
+}
+else {
+    console.log("Incorrect Pin")
+}
+
